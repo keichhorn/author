@@ -1,0 +1,359 @@
+/* Project ONE: Atlantis — Autorenseite Konrad Eichhorn */
+
+:root {
+  --bg:        #0b1016;
+  --bg-alt:    #111923;
+  --surface:   #16202c;
+  --line:      #243244;
+  --text:      #e6ecf3;
+  --text-dim:  #9fb0c3;
+  --gold:      #d9b45b;
+  --gold-soft: #f0d494;
+  --teal:      #4fd1c5;
+  --maxw:      80rem;
+  --radius:    14px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6.5rem;  /* damit die sticky Kopfzeile das Ziel nicht verdeckt */
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: var(--gold-soft); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: #fff; }
+
+h1, h2, h3, .kicker, .btn, nav, footer {
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3 { line-height: 1.2; margin: 0 0 .6em; font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: clamp(1.5rem, 3.2vw, 2.1rem); }
+h3 { font-size: 1.15rem; }
+
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 1.5rem; }
+
+/* Sprungziele bekommen per Skript den Fokus — ohne sichtbaren Rahmen. */
+[tabindex="-1"]:focus { outline: none; }
+
+.kicker {
+  display: inline-block;
+  font-size: .78rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: .9rem;
+}
+
+/* ---------- Kopfzeile ---------- */
+
+.site-head {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(11, 16, 22, .88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.site-head .wrap {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; min-height: 4.8rem; flex-wrap: wrap;
+}
+/* Handschriftlicher Namenszug. Bewusst nur systemeigene Schriften — eine
+   Webfont von einem fremden Server wäre ein Datenschutzthema. Reihenfolge:
+   macOS-Kalligrafie, dann Windows (Gabriola/Segoe Script), dann Notnagel. */
+.brand {
+  font-family: "Snell Roundhand", "Apple Chancery", Gabriola,
+               "Segoe Script", "Brush Script MT", "Lucida Handwriting", cursive;
+  font-size: 2.8rem;   /* Schwungschriften laufen klein, daher großzügiger */
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: .01em;
+  color: var(--gold);
+  text-decoration: none;
+  padding-top: .1em;   /* Schwungschriften sitzen optisch zu hoch */
+  transition: color .2s ease;
+}
+.brand:hover { color: var(--gold-soft); }
+.site-head nav { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+.site-head nav a {
+  color: var(--text-dim); text-decoration: none; font-size: .92rem;
+}
+.site-head nav a:hover { color: var(--gold); }
+
+/* ---------- Hero ---------- */
+
+.hero {
+  padding: clamp(3rem, 8vw, 6rem) 0 clamp(3rem, 7vw, 5rem);
+  background:
+    radial-gradient(60rem 34rem at 78% 8%, rgba(79, 209, 197, .10), transparent 60%),
+    radial-gradient(46rem 30rem at 10% 92%, rgba(217, 180, 91, .10), transparent 60%);
+}
+.hero .wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
+  gap: clamp(2rem, 6vw, 4.5rem);
+  align-items: center;
+}
+.hero h1 {
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  margin-bottom: .5rem;
+}
+.hero h1 .accent {
+  display: block;
+  background: linear-gradient(100deg, var(--gold) 10%, var(--gold-soft) 55%, var(--gold) 90%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+.hero .lead {
+  font-size: clamp(1.05rem, 2.1vw, 1.25rem);
+  color: var(--text-dim);
+  max-width: 34rem;
+  margin: 0 0 2rem;
+}
+/* Das Cover ist ein großes Bild — ohne eigene Compositing-Ebene ruckelt die
+   Drehung, weil der Browser bei jedem Frame neu rastern müsste. will-change
+   und translateZ(0) legen es dauerhaft auf die GPU. */
+.cover-frame {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 1.6rem 3.5rem rgba(0, 0, 0, .6), 0 0 0 1px var(--line);
+  transform: rotate(-1.4deg) translateZ(0);
+  transition: transform .5s cubic-bezier(.22, .61, .36, 1);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.cover-frame:hover {
+  transform: rotate(0deg) translate3d(0, -6px, 0) scale(1.015);
+}
+.cover-frame img { transform: translateZ(0); }
+
+/* ---------- Buttons ---------- */
+
+.actions { display: flex; gap: .8rem; flex-wrap: wrap; align-items: center; }
+.btn {
+  display: inline-block;
+  padding: .8rem 1.5rem;
+  border-radius: 999px;
+  font-size: .95rem; font-weight: 600;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform .15s ease, background .2s ease, border-color .2s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { background: var(--gold); color: #000; }
+.btn-primary:hover { background: var(--gold-soft); color: #000; }
+.btn-ghost { border-color: var(--line); color: var(--text); }
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold-soft); }
+.btn[aria-disabled="true"] {
+  background: transparent; color: var(--text-dim);
+  border: 1px dashed var(--line); cursor: not-allowed;
+}
+.btn[aria-disabled="true"]:hover { transform: none; color: var(--text-dim); }
+/* Amazon-Button: behält die gelbe Optik, ist bis zur Veröffentlichung aber stumm. */
+.btn-primary[aria-disabled="true"] {
+  background: var(--gold); color: #000;
+  border: none; opacity: .55;
+}
+.btn-primary[aria-disabled="true"]:hover { background: var(--gold); color: #000; }
+.hint {
+  color: var(--text-dim);
+  font-size: .88rem;
+  align-self: center;
+}
+
+/* ---------- Abschnitte ---------- */
+
+/* Abschnitte wechseln zwischen dunkel und etwas heller — das ist der eigentliche
+   Trenner. Die Linie an der Naht läuft zu den Rändern hin aus. */
+section { padding: clamp(3rem, 7vw, 5rem) 0; position: relative; }
+section + section::before {
+  content: "";
+  position: absolute; top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: min(100%, var(--maxw));
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent, var(--line) 18%, var(--line) 82%, transparent);
+}
+.section-alt { background: var(--bg-alt); }
+
+.prose { max-width: 44rem; }
+.prose p { margin: 0 0 1.15em; }
+
+blockquote {
+  margin: 2rem 0;
+  padding: 1.2rem 0 1.2rem 1.6rem;
+  border-left: 3px solid var(--gold);
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--gold-soft);
+}
+blockquote p { margin: 0; }
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 3.5rem);
+  align-items: start;
+}
+
+.facts { list-style: none; padding: 0; margin: 2rem 0 0; }
+.facts li {
+  display: flex; justify-content: space-between; gap: 1rem;
+  padding: .8rem 0; border-bottom: 1px solid var(--line);
+  font-size: .95rem;
+}
+.facts li span:first-child { color: var(--text-dim); }
+.facts li span:last-child { text-align: right; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(1.5rem, 4vw, 2.2rem);
+}
+
+/* ---------- Bücher ---------- */
+
+/* Von links nach rechts: Cover, Eckdaten, Klappentext. */
+.book {
+  display: grid;
+  grid-template-columns: minmax(0, 13rem) minmax(0, 17rem) minmax(0, 1fr);
+  gap: clamp(1.6rem, 3.5vw, 2.8rem);
+  align-items: start;
+}
+.book-title {
+  font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+  color: var(--text-dim);
+  margin-bottom: 1.6rem;
+}
+.book .prose { max-width: none; }
+.book .facts { margin-top: 0; }
+.book .facts li:first-child { padding-top: 0; }
+.book .facts li:last-child { border-bottom: none; padding-bottom: 0; }
+.facts .buy { color: var(--gold-soft); text-decoration: none; font-weight: 600; }
+.facts .buy:hover { color: #fff; text-decoration: underline; }
+.facts .pending { color: var(--text-dim); font-style: italic; }
+
+/* Klappentext: alles Hervorgehobene übernimmt das Gold des Covers. */
+.blurb strong, .blurb em, .blurb b, .blurb i { color: var(--gold-soft); }
+.blurb strong { font-weight: 700; }
+.blurb .opener {
+  font-size: 1.2rem;
+  color: var(--gold-soft);
+  font-weight: 600;
+  margin-bottom: 1.4em;
+}
+
+/* Band 2 — Platzhalter, bis es etwas zu zeigen gibt */
+.book-soon { opacity: .72; }
+.book-soon .book-title { color: var(--text-dim); }
+.cover-placeholder {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  border-radius: var(--radius);
+  border: 1px dashed var(--line);
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(159, 176, 195, .07) 0,
+      rgba(159, 176, 195, .07) 6px,
+      transparent 6px,
+      transparent 14px
+    ),
+    var(--bg-alt);
+  display: grid;
+  place-content: center;
+  gap: .5rem;
+  text-align: center;
+  padding: 1.5rem;
+  filter: grayscale(1);
+}
+.cover-placeholder .qm {
+  font-size: 2.6rem;
+  color: var(--text-dim);
+  opacity: .5;
+  line-height: 1;
+}
+.badge-soon {
+  display: inline-block;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  font-size: .72rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: .3rem .8rem;
+}
+
+/* ---------- Rechtsseiten ---------- */
+
+.legal { padding-top: clamp(2.5rem, 6vw, 4rem); }
+.legal .prose h2 { margin-top: 2.5rem; font-size: 1.35rem; }
+.legal .prose h2:first-of-type { margin-top: 0; }
+.legal address { font-style: normal; color: var(--text-dim); margin: 0 0 1.15em; }
+
+.todo {
+  background: rgba(217, 180, 91, .1);
+  border: 1px dashed var(--gold);
+  border-radius: 6px;
+  padding: .1em .5em;
+  color: var(--gold-soft);
+  font-size: .9em;
+}
+
+/* ---------- Fußzeile ---------- */
+
+.site-foot {
+  border-top: 1px solid var(--line);
+  background: var(--bg-alt);
+  padding: 2.5rem 0;
+  color: var(--text-dim);
+  font-size: .9rem;
+}
+.site-foot .wrap {
+  display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+}
+.site-foot nav { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+.site-foot a { color: var(--text-dim); text-decoration: none; }
+.site-foot a:hover { color: var(--gold); }
+
+/* ---------- Schmale Bildschirme ---------- */
+
+/* Stufe 1: Klappentext rutscht unter Cover und Eckdaten. */
+@media (max-width: 72rem) {
+  .book { grid-template-columns: minmax(0, 12rem) minmax(0, 1fr); }
+  .book .blurb { grid-column: 1 / -1; }
+}
+
+/* Stufe 2: alles untereinander. */
+@media (max-width: 46rem) {
+  .book { grid-template-columns: minmax(0, 1fr); }
+  .book .cover-col { max-width: 15rem; }
+  .book .blurb { grid-column: auto; }
+}
+
+@media (max-width: 52rem) {
+  .hero .wrap { grid-template-columns: minmax(0, 1fr); }
+  .hero .cover-col { order: -1; max-width: 17rem; margin: 0 auto; }
+  .split { grid-template-columns: minmax(0, 1fr); }
+  .site-head .wrap { min-height: auto; padding-top: .8rem; padding-bottom: .8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; }
+}
