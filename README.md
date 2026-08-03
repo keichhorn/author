@@ -1,6 +1,9 @@
 # Konrad Eichhorn - Author Website
 
-Static site published at <https://keichhorn.github.io/author/>
+The personal website of Konrad Eichhorn, German science fiction author, presenting his debut
+novel *Project ONE: Atlantis*.
+
+Published at <https://keichhorn.github.io/author/>
 
 > [!CAUTION]
 > This repository is public: never commit anything unpublished, private or confidential —
