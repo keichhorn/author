@@ -11,6 +11,64 @@
 (function () {
   "use strict";
 
+  /* ============================================================
+   * AMAZON-ADRESSEN — die einzigen Stellen, die geändert werden müssen.
+   *
+   * Solange hier "" steht, bleiben die Verweise stumm: der Buchlink
+   * zeigt „folgt“ an, der Verweis aufs Autorenprofil bleibt ganz
+   * ausgeblendet. Sobald eine Adresse eingetragen ist, wird daraus
+   * überall ein echter Link.
+   *
+   *   var AMAZON_URL        = "https://www.amazon.de/dp/XXXXXXXXXX";
+   *   var AMAZON_AUTHOR_URL = "https://www.amazon.de/author/XXXXXXXX";
+   * ============================================================ */
+  var AMAZON_URL = "";
+  var AMAZON_AUTHOR_URL = "";
+
+  function verlinke(attribut, url) {
+    if (!url) return;
+
+    var ziele = document.querySelectorAll("[" + attribut + "]");
+    for (var i = 0; i < ziele.length; i++) {
+      var el = ziele[i];
+      var text = el.getAttribute(attribut);
+
+      el.href = url;
+      el.target = "_blank";
+      el.rel = "noopener noreferrer";
+      el.removeAttribute("aria-disabled");
+      el.removeAttribute("title");
+      el.classList.remove("pending");
+      if (text) el.textContent = text;
+    }
+  }
+
+  function aktiviereAmazonLinks() {
+    verlinke("data-amazon", AMAZON_URL);
+    verlinke("data-amazon-author", AMAZON_AUTHOR_URL);
+
+    // Verweise aufs Autorenprofil erscheinen erst mit hinterlegter Adresse.
+    if (AMAZON_AUTHOR_URL) {
+      var eintraege = document.querySelectorAll("[data-amazon-author-item]");
+      for (var j = 0; j < eintraege.length; j++) {
+        eintraege[j].removeAttribute("hidden");
+      }
+    }
+
+    // Der Hinweis „Erscheint voraussichtlich 2026“ neben dem Button
+    // ergibt mit echtem Kauflink keinen Sinn mehr.
+    if (AMAZON_URL) {
+      var hinweis = document.querySelector(".hero .hint");
+      if (hinweis) hinweis.remove();
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", aktiviereAmazonLinks);
+  } else {
+    aktiviereAmazonLinks();
+  }
+
   var root = document.documentElement;
 
   // Eigene Animation und natives Smooth-Scrolling würden sich gegenseitig

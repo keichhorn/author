@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Konrad — Autor aus Leidenschaft</title>
+<title>Konrad - Autor aus Leidenschaft</title>
 <meta name="description" content="Konrad Eichhorn schreibt Science-Fiction. Sein Debütroman „Project ONE: Atlantis“ erzählt von drei Menschen, die auf dasselbe Geheimnis zulaufen.">
 <meta name="author" content="Konrad Eichhorn">
 <link rel="canonical" href="https://keichhorn.github.io/author/">
@@ -11,21 +11,25 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="de_DE">
 <meta property="og:site_name" content="Konrad Eichhorn — Autor">
-<meta property="og:title" content="Konrad — Autor aus Leidenschaft">
+<meta property="og:title" content="Konrad - Autor aus Leidenschaft">
 <meta property="og:description" content="Was wäre, wenn die Zukunft längst existiert — und jemand sie vor dir versteckt?">
 <meta property="og:url" content="https://keichhorn.github.io/author/">
 <meta property="og:image" content="https://keichhorn.github.io/author/bilder/cover-project-one-atlantis.jpg">
 <meta name="twitter:card" content="summary_large_image">
 
+<meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0b1016">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>">
+<link rel="icon" type="image/png" href="bilder/icon-k.png">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 
 <header class="site-head">
   <div class="wrap">
-    <a class="brand" href="index.html">Konrad Eichhorn</a>
+    <div class="brand-group">
+      <a class="brand" href="index.html">Konrad Eichhorn</a>
+      <span class="tagline">Autor aus Leidenschaft</span>
+    </div>
     <nav aria-label="Hauptnavigation">
       <a href="#buecher">Meine Bücher</a>
       <a href="#autor">Über mich</a>
@@ -43,24 +47,22 @@
         <span class="kicker">Debütroman · Science-Fiction</span>
         <h1>Project ONE:<span class="accent">Atlantis</span></h1>
         <p class="lead">
-          Ein Science-Fiction-Roman über drei Menschen, die auf dasselbe Geheimnis zulaufen.
+          Ein fesselnder Science-Fiction-Roman über drei Menschen, die auf einen geheimnisvollen Ort zulaufen.
         </p>
         <div class="actions">
           <a class="btn btn-ghost" href="#buecher">Worum geht es?</a>
-          <!-- TODO Amazon-Link: sobald das Buch veröffentlicht ist, diesen Button ersetzen durch
-               <a class="btn btn-primary" href="https://www.amazon.de/dp/DEINE-ASIN">Amazon</a>
-               und den Hinweis daneben löschen. -->
+          <!-- Ziel und Zustand kommen aus AMAZON_URL in assets/script.js -->
           <a class="btn btn-primary" aria-disabled="true" href="#kontakt"
-             title="Der Link folgt zur Veröffentlichung">Amazon</a>
+             data-amazon="Amazon" title="Der Link folgt zur Veröffentlichung">Direkt zu Amazon</a>
           <span class="hint">Erscheint voraussichtlich 2026</span>
         </div>
       </div>
       <div class="cover-col">
-        <div class="cover-frame">
+        <a class="cover-frame" href="#buecher" aria-label="Zum Buch springen">
           <img src="bilder/cover-project-one-atlantis.jpg"
                width="800" height="1200"
                alt="Buchcover „Project ONE: Atlantis“ von Konrad Eichhorn: ein gläserner Firmensitz über einer verborgenen unterirdischen Stadt.">
-        </div>
+        </a>
       </div>
     </div>
   </div>
@@ -80,18 +82,13 @@
                    width="800" height="1200" loading="lazy"
                    alt="Buchcover „Project ONE: Atlantis“ von Konrad Eichhorn: ein gläserner Firmensitz über einer verborgenen unterirdischen Stadt.">
             </div>
-          </div>
-
-          <div class="card">
-            <ul class="facts">
-              <li><span>Titel</span><span>Project ONE: Atlantis</span></li>
-              <li><span>Genre</span><span>Science-Fiction</span></li>
-              <li><span>Serie</span><span>Project ONE — Band 1</span></li>
-              <li><span>Veröffentlichung</span><span>voraussichtlich 2026</span></li>
-              <!-- TODO Amazon-Link: <span class="buy"> durch
-                   <a class="buy" href="https://www.amazon.de/dp/DEINE-ASIN">Zum Angebot</a> ersetzen. -->
-              <li><span>Kaufen</span><span class="pending">Amazon — folgt</span></li>
-            </ul>
+            <div class="specs">
+              <p>Project ONE - Band 1</p>
+              <p>Science-Fiction<span class="sep">|</span><span class="lbl">erscheint voraussichtlich</span> 2026</p>
+              <!-- Ziel und Zustand kommen aus AMAZON_URL in assets/script.js -->
+              <p><a class="buy pending" href="#kontakt"
+                    data-amazon="Direkt zu Amazon">Direkt zu Amazon - folgt</a></p>
+            </div>
           </div>
 
           <div class="prose blurb">
@@ -114,7 +111,7 @@
   <section id="band-2">
     <div class="wrap">
       <article class="book-soon">
-        <h3 class="book-title">Project ONE — Band 2</h3>
+        <h3 class="book-title">Project ONE - Band 2</h3>
 
         <div class="book">
           <div class="cover-col">
@@ -122,27 +119,27 @@
               <span class="qm" aria-hidden="true">?</span>
               <span class="badge-soon">Coming soon</span>
             </div>
-          </div>
-
-          <div class="card">
-            <ul class="facts">
-              <li><span>Titel</span><span class="pending">noch geheim</span></li>
-              <li><span>Genre</span><span>Science-Fiction</span></li>
-              <li><span>Serie</span><span>Project ONE — Band 2</span></li>
-              <li><span>Veröffentlichung</span><span class="pending">in Arbeit</span></li>
-              <li><span>Kaufen</span><span class="pending">noch nicht verfügbar</span></li>
-            </ul>
+            <div class="specs">
+              <p>Project ONE - Band 2</p>
+              <p>Science-Fiction<span class="sep">|</span><span class="lbl">Erscheinungstermin offen</span></p>
+              <p class="pending">Noch nicht erhältlich</p>
+            </div>
           </div>
 
           <div class="prose">
             <p>
-              Die Geschichte ist mit Atlantis nicht zu Ende erzählt. Woran ich gerade schreibe,
-              verrate ich noch nicht — nur so viel: Es geht dort weiter, wo Band 1 die
-              unbequemsten Fragen offenlässt.
+              <em>Project ONE: Atlantis</em> erzählt eine in sich abgeschlossene Geschichte.
+              Für diese Welt und ihre Figuren habe ich aber noch viele Ideen.
+              <a href="mailto:authorkonrad@gmail.com">Schreiben Sie mir</a>, wenn Sie sich
+              eine Fortsetzung wünschen, und <a href="#kontakt">folgen Sie mir auf Social
+              Media</a>, wenn Sie erfahren möchten, woran ich gerade arbeite.
             </p>
-            <p>
+            <!-- Erscheint erst, wenn AMAZON_AUTHOR_URL in assets/script.js gesetzt ist. -->
+            <p hidden data-amazon-author-item>
               Sie möchten erfahren, wann es so weit ist?
-              <a href="#kontakt">Schreiben Sie mir</a> — ich melde mich, sobald es Neues gibt.
+              <a class="buy" data-amazon-author="Abonnieren Sie mich auf Amazon"
+                 href="#">Abonnieren Sie mich auf Amazon</a> — dann werden Sie über jedes neue
+              Buch benachrichtigt.
             </p>
           </div>
         </div>
@@ -180,11 +177,52 @@
       <span class="kicker">Kontakt</span>
       <h2>Schreiben Sie mir</h2>
       <p>
-        Fragen zum Buch, Presseanfragen oder einfach ein Gruß — ich freue mich über jede Nachricht.
+        Sie haben Fragen zum Buch, eine Presseanfrage oder wollten einfach mal Hallo sagen?
+        Ich freue mich über jede Nachricht.
       </p>
-      <div class="actions" style="margin-top:1.5rem;">
-        <a class="btn btn-primary" href="mailto:authorkonrad@gmail.com">authorkonrad@gmail.com</a>
-      </div>
+      <ul class="social">
+        <li>
+          <a href="mailto:authorkonrad@gmail.com">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect x="2.5" y="4.5" width="19" height="15" rx="3.5"/>
+              <path d="M3.5 7.5 L12 13.2 L20.5 7.5"/>
+            </svg>
+            <span>authorkonrad@gmail.com</span>
+            <span class="sr">per E-Mail schreiben</span>
+          </a>
+        </li>
+        <!-- Wird nur eingeblendet, wenn AMAZON_AUTHOR_URL in assets/script.js gesetzt ist. -->
+        <li hidden data-amazon-author-item>
+          <a data-amazon-author href="#">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="8.2" r="3.7"/>
+              <path d="M4.8 20.5 c0-3.6 3.2-5.8 7.2-5.8 s7.2 2.2 7.2 5.8"/>
+            </svg>
+            <span>Autorenprofil bei Amazon</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.instagram.com/author_konrad/" rel="me noopener noreferrer" target="_blank">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/>
+              <circle cx="12" cy="12" r="4.5"/>
+              <circle cx="17.6" cy="6.4" r="1.2" class="dot"/>
+            </svg>
+            <span>@author_konrad</span>
+            <span class="sr">auf Instagram</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.youtube.com/@author_konrad" rel="me noopener noreferrer" target="_blank">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect x="2" y="5" width="20" height="14" rx="4.5"/>
+              <path d="M10.2 9.1 L15.2 12 L10.2 14.9 Z" class="fill"/>
+            </svg>
+            <span>@author_konrad</span>
+            <span class="sr">auf YouTube</span>
+          </a>
+        </li>
+      </ul>
     </div>
   </section>
 

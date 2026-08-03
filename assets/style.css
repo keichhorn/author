@@ -9,12 +9,21 @@
   --text-dim:  #9fb0c3;
   --gold:      #d9b45b;
   --gold-soft: #f0d494;
+  /* Der Goldverlauf des Titels „Atlantis“ — überall dort verwendet, wo
+     dieselbe Anmutung gefragt ist (Namenszug, Amazon-Button). */
+  --gold-grad: linear-gradient(100deg, var(--gold) 10%, var(--gold-soft) 55%, var(--gold) 90%);
   --teal:      #4fd1c5;
   --maxw:      80rem;
   --radius:    14px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+
+/* Sagt dem Browser, dass die Seite bereits dunkel gestaltet ist. Ohne diese
+   Angabe stülpt der erzwungene Dunkelmodus (Chromium/Vivaldi „Auto Dark“)
+   der Seite eigene Farben über und macht etwa die schwarze Schrift auf dem
+   goldenen Button wieder weiß. */
+:root { color-scheme: dark; }
 
 html {
   scroll-behavior: smooth;
@@ -49,6 +58,9 @@ h3 { font-size: 1.15rem; }
 /* Sprungziele bekommen per Skript den Fokus — ohne sichtbaren Rahmen. */
 [tabindex="-1"]:focus { outline: none; }
 
+/* Gilt auch für Flex-Kinder, die sonst trotz hidden sichtbar blieben. */
+[hidden] { display: none !important; }
+
 .kicker {
   display: inline-block;
   font-size: .78rem;
@@ -80,12 +92,31 @@ h3 { font-size: 1.15rem; }
   font-weight: 600;
   line-height: 1;
   letter-spacing: .01em;
-  color: var(--gold);
   text-decoration: none;
   padding-top: .1em;   /* Schwungschriften sitzen optisch zu hoch */
-  transition: color .2s ease;
+  /* Derselbe Verlauf wie im Titel „Atlantis“ */
+  background: var(--gold-grad);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  transition: filter .2s ease;
 }
-.brand:hover { color: var(--gold-soft); }
+.brand:hover { filter: brightness(1.15); }
+
+/* Zusatz im selben Schriftzug, kleiner und in Weiß. */
+.brand-group {
+  display: flex;
+  align-items: baseline;
+  gap: .9rem;
+  min-width: 0;
+}
+.tagline {
+  font-family: "Snell Roundhand", "Apple Chancery", Gabriola,
+               "Segoe Script", "Brush Script MT", "Lucida Handwriting", cursive;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #fff;
+  white-space: nowrap;
+}
 .site-head nav { display: flex; gap: 1.4rem; flex-wrap: wrap; }
 .site-head nav a {
   color: var(--text-dim); text-decoration: none; font-size: .92rem;
@@ -102,8 +133,8 @@ h3 { font-size: 1.15rem; }
 }
 .hero .wrap {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
-  gap: clamp(2rem, 6vw, 4.5rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 24rem);
+  gap: clamp(2rem, 6vw, 5rem);
   align-items: center;
 }
 .hero h1 {
@@ -112,7 +143,7 @@ h3 { font-size: 1.15rem; }
 }
 .hero h1 .accent {
   display: block;
-  background: linear-gradient(100deg, var(--gold) 10%, var(--gold-soft) 55%, var(--gold) 90%);
+  background: var(--gold-grad);
   -webkit-background-clip: text; background-clip: text;
   color: transparent;
 }
@@ -122,26 +153,33 @@ h3 { font-size: 1.15rem; }
   max-width: 34rem;
   margin: 0 0 2rem;
 }
-/* Das Cover ist ein großes Bild — ohne eigene Compositing-Ebene ruckelt die
-   Drehung, weil der Browser bei jedem Frame neu rastern müsste. will-change
-   und translateZ(0) legen es dauerhaft auf die GPU. */
 .cover-frame {
+  display: block;   /* im Hero ist es ein Link zum Buchabschnitt */
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: 0 1.6rem 3.5rem rgba(0, 0, 0, .6), 0 0 0 1px var(--line);
+}
+
+/* Neigung und Hover-Effekt nur im Hero — in der Bücherliste stünde die
+   Bewegung bloß im Weg. Ohne eigene Compositing-Ebene (will-change,
+   translateZ) ruckelt die Drehung, weil das große Bild sonst bei jedem
+   Frame neu gerastert würde. */
+.hero .cover-frame {
   transform: rotate(-1.4deg) translateZ(0);
   transition: transform .5s cubic-bezier(.22, .61, .36, 1);
   will-change: transform;
   backface-visibility: hidden;
 }
-.cover-frame:hover {
+.hero .cover-frame:hover {
   transform: rotate(0deg) translate3d(0, -6px, 0) scale(1.015);
 }
-.cover-frame img { transform: translateZ(0); }
+.hero .cover-frame img { transform: translateZ(0); }
 
 /* ---------- Buttons ---------- */
 
 .actions { display: flex; gap: .8rem; flex-wrap: wrap; align-items: center; }
+/* Beide Schaltflächen im Hero gleich groß, unabhängig von der Textlänge. */
+.hero .actions .btn { min-width: 12rem; text-align: center; }
 .btn {
   display: inline-block;
   padding: .8rem 1.5rem;
@@ -152,7 +190,7 @@ h3 { font-size: 1.15rem; }
   transition: transform .15s ease, background .2s ease, border-color .2s ease;
 }
 .btn:hover { transform: translateY(-2px); }
-.btn-primary { background: var(--gold); color: #000; }
+.btn-primary { background: var(--gold-grad); color: #000; }
 .btn-primary:hover { background: var(--gold-soft); color: #000; }
 .btn-ghost { border-color: var(--line); color: var(--text); }
 .btn-ghost:hover { border-color: var(--gold); color: var(--gold-soft); }
@@ -161,12 +199,19 @@ h3 { font-size: 1.15rem; }
   border: 1px dashed var(--line); cursor: not-allowed;
 }
 .btn[aria-disabled="true"]:hover { transform: none; color: var(--text-dim); }
-/* Amazon-Button: behält die gelbe Optik, ist bis zur Veröffentlichung aber stumm. */
+/* Amazon-Button: volle Goldwirkung wie der Titel, bis zur Veröffentlichung
+   aber ohne Hover-Anhebung. Keine abgesenkte Deckkraft — die würde das Gold
+   mit dem dunklen Hintergrund zu Braun mischen. */
 .btn-primary[aria-disabled="true"] {
-  background: var(--gold); color: #000;
-  border: none; opacity: .55;
+  background: var(--gold-grad);
+  color: #000;
+  border: 1px solid transparent;
 }
-.btn-primary[aria-disabled="true"]:hover { background: var(--gold); color: #000; }
+.btn-primary[aria-disabled="true"]:hover {
+  background: var(--gold-grad);
+  color: #000;
+  transform: none;
+}
 .hint {
   color: var(--text-dim);
   font-size: .88rem;
@@ -192,6 +237,10 @@ section + section::before {
 .prose { max-width: 44rem; }
 .prose p { margin: 0 0 1.15em; }
 
+/* „Über mich“ und „Kontakt“ laufen über die volle Spaltenbreite wie die
+   Buchblöcke darüber — Container und Text bündig auf gleicher Flucht. */
+.wrap.prose { max-width: var(--maxw); }
+
 blockquote {
   margin: 2rem 0;
   padding: 1.2rem 0 1.2rem 1.6rem;
@@ -209,29 +258,54 @@ blockquote p { margin: 0; }
   align-items: start;
 }
 
-.facts { list-style: none; padding: 0; margin: 2rem 0 0; }
-.facts li {
-  display: flex; justify-content: space-between; gap: 1rem;
-  padding: .8rem 0; border-bottom: 1px solid var(--line);
+/* Angaben unter dem Cover — ohne Kasten, der Titel steht bereits darüber. */
+.specs {
+  margin-top: 1.5rem;
+  text-align: center;
   font-size: .95rem;
+  line-height: 1.55;
 }
-.facts li span:first-child { color: var(--text-dim); }
-.facts li span:last-child { text-align: right; }
+.specs p { margin: 0 0 .4em; color: var(--text); }
+.specs p:last-child { margin-bottom: 0; margin-top: .9em; }
+/* Nur über die Farbe zurückgenommen — kursive Serifen laufen schmaler und
+   wirken dadurch kleiner als die Zeilen darüber. */
+.specs .pending { color: var(--text-dim); }
 
-.card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: clamp(1.5rem, 4vw, 2.2rem);
+/* Feste Angaben stehen hell, verbindende Wörter treten zurück. */
+.specs .lbl { color: var(--text-dim); }
+.specs .sep {
+  display: inline-block;
+  color: var(--text-dim);
+  margin: 0 .6em;
+  opacity: .45;
+  font-weight: 300;
 }
+
+.buy {
+  color: var(--gold-soft);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(240, 212, 148, .35);
+  padding-bottom: 1px;
+  transition: color .2s ease, border-color .2s ease;
+}
+.buy:hover { color: #fff; border-color: #fff; }
+/* Solange keine Amazon-Adresse hinterlegt ist, sieht es nicht nach Link aus. */
+.buy.pending {
+  color: var(--text-dim);
+  font-weight: 400;
+  border-bottom: none;
+  cursor: default;
+}
+.buy.pending:hover { color: var(--text-dim); }
 
 /* ---------- Bücher ---------- */
 
 /* Von links nach rechts: Cover, Eckdaten, Klappentext. */
 .book {
   display: grid;
-  grid-template-columns: minmax(0, 13rem) minmax(0, 17rem) minmax(0, 1fr);
-  gap: clamp(1.6rem, 3.5vw, 2.8rem);
+  grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4rem);
   align-items: start;
 }
 .book-title {
@@ -240,12 +314,6 @@ blockquote p { margin: 0; }
   margin-bottom: 1.6rem;
 }
 .book .prose { max-width: none; }
-.book .facts { margin-top: 0; }
-.book .facts li:first-child { padding-top: 0; }
-.book .facts li:last-child { border-bottom: none; padding-bottom: 0; }
-.facts .buy { color: var(--gold-soft); text-decoration: none; font-weight: 600; }
-.facts .buy:hover { color: #fff; text-decoration: underline; }
-.facts .pending { color: var(--text-dim); font-style: italic; }
 
 /* Klappentext: alles Hervorgehobene übernimmt das Gold des Covers. */
 .blurb strong, .blurb em, .blurb b, .blurb i { color: var(--gold-soft); }
@@ -299,9 +367,58 @@ blockquote p { margin: 0; }
   padding: .3rem .8rem;
 }
 
+/* ---------- Profile ---------- */
+
+.sr {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+.social {
+  list-style: none;
+  padding: 0;
+  margin: 1.8rem 0 0;
+  display: flex;
+  gap: 1.2rem 2.4rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.social a {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  font-size: .95rem;
+  transition: color .2s ease;
+}
+.social a:hover { color: var(--gold-soft); }
+.social svg {
+  width: 1.45rem; height: 1.45rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  flex: none;
+}
+.social svg .fill, .social svg .dot { fill: currentColor; stroke: none; }
+
 /* ---------- Rechtsseiten ---------- */
 
 .legal { padding-top: clamp(2.5rem, 6vw, 4rem); }
+
+/* Fehlerseite: ohne Kopf- und Fußzeile, Inhalt mittig im Fenster. */
+.error-page {
+  min-height: 100vh;
+  display: grid;
+  align-content: center;
+  padding: 2rem 0;
+}
+/* Rechtstexte bleiben schmal — dort geht es ums Lesen, nicht ums Layout. */
+.legal .wrap.prose { max-width: 44rem; }
 .legal .prose h2 { margin-top: 2.5rem; font-size: 1.35rem; }
 .legal .prose h2:first-of-type { margin-top: 0; }
 .legal address { font-style: normal; color: var(--text-dim); margin: 0 0 1.15em; }
@@ -333,17 +450,15 @@ blockquote p { margin: 0; }
 
 /* ---------- Schmale Bildschirme ---------- */
 
-/* Stufe 1: Klappentext rutscht unter Cover und Eckdaten. */
-@media (max-width: 72rem) {
-  .book { grid-template-columns: minmax(0, 12rem) minmax(0, 1fr); }
-  .book .blurb { grid-column: 1 / -1; }
+/* Mittlere Breiten: Cover etwas schmaler, damit dem Klappentext genug bleibt. */
+@media (max-width: 70rem) {
+  .book { grid-template-columns: minmax(0, 18rem) minmax(0, 1fr); }
 }
 
-/* Stufe 2: alles untereinander. */
-@media (max-width: 46rem) {
+/* Schmal: Cover mit Angaben über den Klappentext. */
+@media (max-width: 48rem) {
   .book { grid-template-columns: minmax(0, 1fr); }
-  .book .cover-col { max-width: 15rem; }
-  .book .blurb { grid-column: auto; }
+  .book .cover-col { max-width: 17rem; margin: 0 auto; }
 }
 
 @media (max-width: 52rem) {
@@ -351,6 +466,14 @@ blockquote p { margin: 0; }
   .hero .cover-col { order: -1; max-width: 17rem; margin: 0 auto; }
   .split { grid-template-columns: minmax(0, 1fr); }
   .site-head .wrap { min-height: auto; padding-top: .8rem; padding-bottom: .8rem; }
+  .tagline { display: none; }   /* zu wenig Platz neben dem Namen */
+}
+
+/* Handy: lieber ohne Menü als mit zweizeiliger Kopfleiste. Die Seite ist
+   kurz genug, um die Abschnitte durch Scrollen zu erreichen. */
+@media (max-width: 40rem) {
+  .site-head .wrap { flex-wrap: nowrap; }
+  .site-head nav { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
